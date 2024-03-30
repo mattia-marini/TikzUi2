@@ -1,0 +1,376 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		497AE0572BB83FE500E5C8AC /* TikzUiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497AE0562BB83FE500E5C8AC /* TikzUiApp.swift */; };
+		497AE0592BB83FE500E5C8AC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497AE0582BB83FE500E5C8AC /* ContentView.swift */; };
+		497AE05B2BB83FE600E5C8AC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 497AE05A2BB83FE600E5C8AC /* Assets.xcassets */; };
+		497AE05E2BB83FE600E5C8AC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 497AE05D2BB83FE600E5C8AC /* Preview Assets.xcassets */; };
+		497AE0662BB8402000E5C8AC /* MetalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497AE0652BB8402000E5C8AC /* MetalView.swift */; };
+		497AE0692BB8405D00E5C8AC /* grid_shader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 497AE0682BB8405D00E5C8AC /* grid_shader.metal */; };
+		497AE06B2BB8407200E5C8AC /* rects_shader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 497AE06A2BB8407200E5C8AC /* rects_shader.metal */; };
+		497AE06D2BB8408000E5C8AC /* compute_shader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 497AE06C2BB8408000E5C8AC /* compute_shader.metal */; };
+		497AE06F2BB8408900E5C8AC /* utils.metal in Sources */ = {isa = PBXBuildFile; fileRef = 497AE06E2BB8408900E5C8AC /* utils.metal */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		497AE0532BB83FE500E5C8AC /* TikzUi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TikzUi.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		497AE0562BB83FE500E5C8AC /* TikzUiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TikzUiApp.swift; sourceTree = "<group>"; };
+		497AE0582BB83FE500E5C8AC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		497AE05A2BB83FE600E5C8AC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		497AE05D2BB83FE600E5C8AC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		497AE05F2BB83FE600E5C8AC /* TikzUi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TikzUi.entitlements; sourceTree = "<group>"; };
+		497AE0652BB8402000E5C8AC /* MetalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalView.swift; sourceTree = "<group>"; };
+		497AE0672BB8404D00E5C8AC /* utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
+		497AE0682BB8405D00E5C8AC /* grid_shader.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = grid_shader.metal; sourceTree = "<group>"; };
+		497AE06A2BB8407200E5C8AC /* rects_shader.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = rects_shader.metal; sourceTree = "<group>"; };
+		497AE06C2BB8408000E5C8AC /* compute_shader.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = compute_shader.metal; sourceTree = "<group>"; };
+		497AE06E2BB8408900E5C8AC /* utils.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = utils.metal; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		497AE0502BB83FE500E5C8AC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		497AE04A2BB83FE500E5C8AC = {
+			isa = PBXGroup;
+			children = (
+				497AE0552BB83FE500E5C8AC /* TikzUi */,
+				497AE0542BB83FE500E5C8AC /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		497AE0542BB83FE500E5C8AC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				497AE0532BB83FE500E5C8AC /* TikzUi.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		497AE0552BB83FE500E5C8AC /* TikzUi */ = {
+			isa = PBXGroup;
+			children = (
+				497AE0562BB83FE500E5C8AC /* TikzUiApp.swift */,
+				497AE0582BB83FE500E5C8AC /* ContentView.swift */,
+				497AE0652BB8402000E5C8AC /* MetalView.swift */,
+				497AE0702BB840D300E5C8AC /* Shaders */,
+				497AE05A2BB83FE600E5C8AC /* Assets.xcassets */,
+				497AE05F2BB83FE600E5C8AC /* TikzUi.entitlements */,
+				497AE05C2BB83FE600E5C8AC /* Preview Content */,
+			);
+			path = TikzUi;
+			sourceTree = "<group>";
+		};
+		497AE05C2BB83FE600E5C8AC /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				497AE05D2BB83FE600E5C8AC /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		497AE0702BB840D300E5C8AC /* Shaders */ = {
+			isa = PBXGroup;
+			children = (
+				497AE0672BB8404D00E5C8AC /* utils.h */,
+				497AE06E2BB8408900E5C8AC /* utils.metal */,
+				497AE0682BB8405D00E5C8AC /* grid_shader.metal */,
+				497AE06A2BB8407200E5C8AC /* rects_shader.metal */,
+				497AE06C2BB8408000E5C8AC /* compute_shader.metal */,
+			);
+			path = Shaders;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		497AE0522BB83FE500E5C8AC /* TikzUi */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 497AE0622BB83FE600E5C8AC /* Build configuration list for PBXNativeTarget "TikzUi" */;
+			buildPhases = (
+				497AE04F2BB83FE500E5C8AC /* Sources */,
+				497AE0502BB83FE500E5C8AC /* Frameworks */,
+				497AE0512BB83FE500E5C8AC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TikzUi;
+			productName = TikzUi;
+			productReference = 497AE0532BB83FE500E5C8AC /* TikzUi.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		497AE04B2BB83FE500E5C8AC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1520;
+				LastUpgradeCheck = 1520;
+				TargetAttributes = {
+					497AE0522BB83FE500E5C8AC = {
+						CreatedOnToolsVersion = 15.2;
+					};
+				};
+			};
+			buildConfigurationList = 497AE04E2BB83FE500E5C8AC /* Build configuration list for PBXProject "TikzUi" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 497AE04A2BB83FE500E5C8AC;
+			productRefGroup = 497AE0542BB83FE500E5C8AC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				497AE0522BB83FE500E5C8AC /* TikzUi */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		497AE0512BB83FE500E5C8AC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				497AE05E2BB83FE600E5C8AC /* Preview Assets.xcassets in Resources */,
+				497AE05B2BB83FE600E5C8AC /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		497AE04F2BB83FE500E5C8AC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				497AE0692BB8405D00E5C8AC /* grid_shader.metal in Sources */,
+				497AE0662BB8402000E5C8AC /* MetalView.swift in Sources */,
+				497AE06F2BB8408900E5C8AC /* utils.metal in Sources */,
+				497AE06D2BB8408000E5C8AC /* compute_shader.metal in Sources */,
+				497AE06B2BB8407200E5C8AC /* rects_shader.metal in Sources */,
+				497AE0592BB83FE500E5C8AC /* ContentView.swift in Sources */,
+				497AE0572BB83FE500E5C8AC /* TikzUiApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		497AE0602BB83FE600E5C8AC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		497AE0612BB83FE600E5C8AC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		497AE0632BB83FE600E5C8AC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = TikzUi/TikzUi.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"TikzUi/Preview Content\"";
+				DEVELOPMENT_TEAM = 2RGJZ7QY5B;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.marini.TikzUi;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		497AE0642BB83FE600E5C8AC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = TikzUi/TikzUi.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"TikzUi/Preview Content\"";
+				DEVELOPMENT_TEAM = 2RGJZ7QY5B;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.marini.TikzUi;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		497AE04E2BB83FE500E5C8AC /* Build configuration list for PBXProject "TikzUi" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				497AE0602BB83FE600E5C8AC /* Debug */,
+				497AE0612BB83FE600E5C8AC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		497AE0622BB83FE600E5C8AC /* Build configuration list for PBXNativeTarget "TikzUi" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				497AE0632BB83FE600E5C8AC /* Debug */,
+				497AE0642BB83FE600E5C8AC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 497AE04B2BB83FE500E5C8AC /* Project object */;
+}
