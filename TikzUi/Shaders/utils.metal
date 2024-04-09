@@ -17,7 +17,12 @@ float2 actual_normalized_pos(float2 pos, float xoffset, float yoffset, float sca
     return float2((pos.x + xoffset) * scale, (pos.y + yoffset) * scale);
 }
 
+float2 norm_to_pixel(float2 pos, float width, float height){
+    return float2((pos.x + 1)/2 * width, (pos.y + 1)/2 * height);
+}
+
 bool in_bounds(float2 point, float4 bounds){
     return bounds.x < point.x  && point.x < bounds.z &&
     bounds.y < point.y  && point.y < bounds.w;
 }
+

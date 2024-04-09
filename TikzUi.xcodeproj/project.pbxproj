@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4923E3282BC4119F004B2B0F /* KeyBindings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4923E3272BC4119F004B2B0F /* KeyBindings.swift */; };
+		492608E52BC526D900B9B972 /* compute_selection.metal in Sources */ = {isa = PBXBuildFile; fileRef = 492608E42BC526D900B9B972 /* compute_selection.metal */; };
 		497AE0572BB83FE500E5C8AC /* TikzUiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497AE0562BB83FE500E5C8AC /* TikzUiApp.swift */; };
 		497AE0592BB83FE500E5C8AC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497AE0582BB83FE500E5C8AC /* ContentView.swift */; };
 		497AE05B2BB83FE600E5C8AC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 497AE05A2BB83FE600E5C8AC /* Assets.xcassets */; };
@@ -16,9 +18,12 @@
 		497AE06B2BB8407200E5C8AC /* rects_shader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 497AE06A2BB8407200E5C8AC /* rects_shader.metal */; };
 		497AE06D2BB8408000E5C8AC /* compute_shader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 497AE06C2BB8408000E5C8AC /* compute_shader.metal */; };
 		497AE06F2BB8408900E5C8AC /* utils.metal in Sources */ = {isa = PBXBuildFile; fileRef = 497AE06E2BB8408900E5C8AC /* utils.metal */; };
+		49DA3E2E2BC3E7BE00F58831 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DA3E2D2BC3E7BE00F58831 /* Utils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4923E3272BC4119F004B2B0F /* KeyBindings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyBindings.swift; sourceTree = "<group>"; };
+		492608E42BC526D900B9B972 /* compute_selection.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = compute_selection.metal; sourceTree = "<group>"; };
 		497AE0532BB83FE500E5C8AC /* TikzUi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TikzUi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		497AE0562BB83FE500E5C8AC /* TikzUiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TikzUiApp.swift; sourceTree = "<group>"; };
 		497AE0582BB83FE500E5C8AC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -31,6 +36,9 @@
 		497AE06A2BB8407200E5C8AC /* rects_shader.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = rects_shader.metal; sourceTree = "<group>"; };
 		497AE06C2BB8408000E5C8AC /* compute_shader.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = compute_shader.metal; sourceTree = "<group>"; };
 		497AE06E2BB8408900E5C8AC /* utils.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = utils.metal; sourceTree = "<group>"; };
+		49DA3E2D2BC3E7BE00F58831 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		49FF7B7E2BC45D8400D5FAF1 /* bridging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bridging.h; sourceTree = "<group>"; };
+		49FF7B7F2BC4670E00D5FAF1 /* stdbool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = stdbool.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,9 +71,11 @@
 		497AE0552BB83FE500E5C8AC /* TikzUi */ = {
 			isa = PBXGroup;
 			children = (
+				4923E3272BC4119F004B2B0F /* KeyBindings.swift */,
 				497AE0562BB83FE500E5C8AC /* TikzUiApp.swift */,
 				497AE0582BB83FE500E5C8AC /* ContentView.swift */,
 				497AE0652BB8402000E5C8AC /* MetalView.swift */,
+				49DA3E2C2BC3E7A400F58831 /* Utils */,
 				497AE0702BB840D300E5C8AC /* Shaders */,
 				497AE05A2BB83FE600E5C8AC /* Assets.xcassets */,
 				497AE05F2BB83FE600E5C8AC /* TikzUi.entitlements */,
@@ -85,13 +95,24 @@
 		497AE0702BB840D300E5C8AC /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
+				49FF7B7E2BC45D8400D5FAF1 /* bridging.h */,
 				497AE0672BB8404D00E5C8AC /* utils.h */,
+				49FF7B7F2BC4670E00D5FAF1 /* stdbool.h */,
 				497AE06E2BB8408900E5C8AC /* utils.metal */,
 				497AE0682BB8405D00E5C8AC /* grid_shader.metal */,
 				497AE06A2BB8407200E5C8AC /* rects_shader.metal */,
 				497AE06C2BB8408000E5C8AC /* compute_shader.metal */,
+				492608E42BC526D900B9B972 /* compute_selection.metal */,
 			);
 			path = Shaders;
+			sourceTree = "<group>";
+		};
+		49DA3E2C2BC3E7A400F58831 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				49DA3E2D2BC3E7BE00F58831 /* Utils.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -164,13 +185,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4923E3282BC4119F004B2B0F /* KeyBindings.swift in Sources */,
 				497AE0692BB8405D00E5C8AC /* grid_shader.metal in Sources */,
 				497AE0662BB8402000E5C8AC /* MetalView.swift in Sources */,
 				497AE06F2BB8408900E5C8AC /* utils.metal in Sources */,
 				497AE06D2BB8408000E5C8AC /* compute_shader.metal in Sources */,
 				497AE06B2BB8407200E5C8AC /* rects_shader.metal in Sources */,
+				492608E52BC526D900B9B972 /* compute_selection.metal in Sources */,
 				497AE0592BB83FE500E5C8AC /* ContentView.swift in Sources */,
 				497AE0572BB83FE500E5C8AC /* TikzUiApp.swift in Sources */,
+				49DA3E2E2BC3E7BE00F58831 /* Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -318,6 +342,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.marini.TikzUi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = TikzUi/Shaders/bridging.h;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -345,6 +370,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.marini.TikzUi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = TikzUi/Shaders/bridging.h;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;

@@ -19,7 +19,7 @@ class MetalView : NSView, CALayerDelegate{
     
     
     var metalLayer : CAMetalLayer!
-    var sublayer : CAMetalLayer!
+    var selectionLayer : SelectionLayer!
     
     private let initialSpacing : Float = 10.0
     private var zoomLevel :Float = 1.0
@@ -30,7 +30,14 @@ class MetalView : NSView, CALayerDelegate{
     private var width : Float = 0
     private var height : Float = 0
     
-    private var rects : [SIMD4<Float>] = [.init(0, 0, 300, 100)]
+    //private var rects : [SIMD4<Float>] = [.init(0, 0, 300, 100)]
+    private var rects : [simd_rect] = []
+    
+    private var currKey : String? = nil
+    private var selectionStart: NSPoint? = nil
+    
+    private var currLiveAction : LiveCanvasActions = .none
+    
     
     var trackingArea: NSTrackingArea?
     
@@ -65,18 +72,21 @@ class MetalView : NSView, CALayerDelegate{
         updateTrackingAreas()
     }
     
-    override func mouseDragged(with event: NSEvent) {
-        xoffset += Float(event.deltaX)
-        yoffset -= Float(event.deltaY)
-        setNeedsDisplay(bounds)
-        //print(event.deltaX)
-        print(xoffset)
+    override func updateTrackingAreas() {
+        super.updateTrackingAreas()
+        
+        if let trackingArea = trackingArea {
+            removeTrackingArea(trackingArea)
+        }
+        
+        let options: NSTrackingArea.Options = [.activeAlways, .mouseMoved]
+        trackingArea = NSTrackingArea(rect: bounds, options: options, owner: self, userInfo: nil)
+        addTrackingArea(trackingArea!)
     }
+    
     
     override func scrollWheel(with event: NSEvent) {
         
-        
-        //let oldSpacing = spacing
         let oldZoomLevel = zoomLevel
         
         zoomLevel = max(zoomLevel + Float(event.scrollingDeltaY) * 0.01, 0.1)
@@ -102,33 +112,68 @@ class MetalView : NSView, CALayerDelegate{
         setNeedsDisplay(bounds)
     }
     
-    override func updateTrackingAreas() {
-        super.updateTrackingAreas()
-        
-        if let trackingArea = trackingArea {
-            removeTrackingArea(trackingArea)
-        }
-        
-        let options: NSTrackingArea.Options = [.activeAlways, .mouseMoved]
-        trackingArea = NSTrackingArea(rect: bounds, options: options, owner: self, userInfo: nil)
-        addTrackingArea(trackingArea!)
-    }
     
     override func mouseMoved(with event: NSEvent) {
-        //print("moved")
-        let windowCords = convert(event.locationInWindow, from: nil)
-        computeSnaps(windowCords)
     }
     
     
-    override func keyUp(with event: NSEvent) {
+    override func mouseDragged(with event: NSEvent) {
+        
+        if(currLiveAction == .moveView){
+            xoffset += Float(event.deltaX)
+            yoffset -= Float(event.deltaY)
+            setNeedsDisplay(bounds)
+        }
+        
+        else if (currLiveAction == .selection){
+            let viewCords = convert(event.locationInWindow, from: nil)
+            
+            if selectionStart == nil { self.selectionStart = viewCords }
+            guard let selectionStart = selectionStart else {return}
+            
+            selectionLayer.selection = .init(origin: selectionStart, size: .init(width: viewCords.x - selectionStart.x, height: viewCords.y - selectionStart.y))
+            selectionLayer.setNeedsDisplay()
+            
+            
+        }
+        
+        
+    }
+    
+    override func mouseDown(with event: NSEvent) {
+        
+        if(currLiveAction == .none){
+            selectionStart = convert(event.locationInWindow, from: nil)
+            currLiveAction = .selection
+        }
+        
+    }
+    
+    override func mouseUp(with event: NSEvent) {
+        currLiveAction = .none
+        selectionStart = nil
+        selectionLayer.selection = nil
+        selectionLayer.setNeedsDisplay()
     }
     
     override func keyDown(with event: NSEvent) {
-        //let locationInView = convert(event.locationInWindow, from: nil)
-        //computeSnaps(locationInView)
-        //print(locationInView)
+        if(currLiveAction == .none && event.characters == CanvasModifiers.moveView){
+            NSCursor.closedHand.set()
+            currLiveAction = .moveView
+        }
+        
+        currKey = event.characters
     }
+    
+    override func keyUp(with event: NSEvent) {
+        if (currLiveAction == .moveView){
+            currLiveAction = .none
+            NSCursor.arrow.set()
+        }
+        
+        currKey = nil
+    }
+    
     
     func display(_ layer: CALayer) {
         
@@ -146,13 +191,15 @@ class MetalView : NSView, CALayerDelegate{
         self.viewDidChangeBackingProperties()
     }
     
-    override func viewDidChangeBackingProperties() {
-        guard let window = self.window else { return }
-        // This is necessary to render correctly on retina displays with the topLeft placement policy
-        metalLayer.contentsScale = window.backingScaleFactor
-    }
+     override func viewDidChangeBackingProperties() {
+         guard let window = self.window else { return }
+         
+         metalLayer.contentsScale = window.backingScaleFactor
+         selectionLayer.contentsScale = window.backingScaleFactor
+     }
     
     /*
+     
      private func drawLines(){
      let drawable = sublayer.nextDrawable()!
      
@@ -192,22 +239,6 @@ class MetalView : NSView, CALayerDelegate{
      }
      */
     
-    private func generateRects(){
-        let xstep: Float = 17.0, ystep: Float = 17.0
-        let width: Float = 15.0, height: Float = 15.0
-        var x: Float = 0.0
-        
-        while (x < 100){
-            
-            var y: Float = 0.0
-            while (y < 10000){
-                self.rects.append(SIMD4<Float>(x,y,x+width,y + height))
-                y += ystep
-            }
-            x += xstep
-        }
-        
-    }
     
     private func drawGrid(_ drawable : CAMetalDrawable){
         
@@ -273,7 +304,7 @@ class MetalView : NSView, CALayerDelegate{
         renderEncoder.setVertexBytes(&yoffset, length: MemoryLayout<Float>.size, index: 4)
         renderEncoder.setVertexBytes(&spacing, length: MemoryLayout<Float>.size, index: 5)
         //renderEncoder.setVerte
-        let buffer = metalLayer.device?.makeBuffer(bytes: rects, length: MemoryLayout<SIMD4<Float>>.stride * rects.count, options: [])
+        let buffer = metalLayer.device?.makeBuffer(bytes: rects, length: MemoryLayout<simd_rect>.stride * rects.count, options: [])
         renderEncoder.setVertexBuffer(buffer, offset: 0, index: 6 )
         //renderEncoder.setVertexBytes(rects, length: MemoryLayout<SIMD4<Float>>.stride * rects.count, index: 6)
         
@@ -289,7 +320,7 @@ class MetalView : NSView, CALayerDelegate{
         drawable.present()
     }
     
-    private func computeSnaps(_ mousePos : NSPoint){
+    private func getTargetsUnderMouse(_ mousePos : NSPoint){
         let commandBuffer = queue.makeCommandBuffer()
         let commandEncoder = commandBuffer?.makeComputeCommandEncoder()
         commandEncoder?.setComputePipelineState(computePipelineState)
@@ -335,6 +366,7 @@ class MetalView : NSView, CALayerDelegate{
             NSCursor.arrow.set()
         }
         
+        
         /*
          let debug = debugBuffer?.contents().bindMemory(to: Float.self, capacity: 10)
          for i in 0...9 {
@@ -345,6 +377,13 @@ class MetalView : NSView, CALayerDelegate{
         
     }
     
+    
+    
+    private func getSelectionBounds(_ selection: NSPoint){
+        
+    }
+    
+    //SETUP VIEW
     private func makePipeline() {
         
         guard let library = metalLayer.device?.makeDefaultLibrary() else {print("errore makePipeline"); return}
@@ -395,16 +434,13 @@ class MetalView : NSView, CALayerDelegate{
     override func makeBackingLayer() -> CALayer {
         
         self.device = MTLCreateSystemDefaultDevice()
+        self.queue = device?.makeCommandQueue()
         
         metalLayer = CAMetalLayer()
-        sublayer = CAMetalLayer()
-        metalLayer.addSublayer(sublayer)
         
         metalLayer.delegate = self
         metalLayer.pixelFormat = .bgra8Unorm
         metalLayer.device = device
-        
-        queue = metalLayer.device?.makeCommandQueue()
         
         metalLayer.allowsNextDrawableTimeout = false
         
@@ -413,9 +449,38 @@ class MetalView : NSView, CALayerDelegate{
         metalLayer.needsDisplayOnBoundsChange = true
         metalLayer.presentsWithTransaction = true
         
+        
+        selectionLayer = SelectionLayer()
+        selectionLayer.autoresizingMask = CAAutoresizingMask(arrayLiteral: [.layerHeightSizable, .layerWidthSizable])
+        selectionLayer.needsDisplayOnBoundsChange = true
+        
         makePipeline()
         
-        return metalLayer
+        let wrapperLayer = CALayer()
+        wrapperLayer.addSublayer(metalLayer)
+        wrapperLayer.addSublayer(selectionLayer)
+        
+        return wrapperLayer
+    }
+    
+    
+    //TESTING FUNCTIONS
+    private func generateRects(){
+        let xstep: Float = 17.0, ystep: Float = 17.0
+        let width: Float = 15.0, height: Float = 15.0
+        var x: Float = 0.0
+        
+        while (x < 100){
+            
+            var y: Float = 0.0
+            while (y < 10000){
+                //self.rects.append(.init(bounds: .init(x: x, y: y, z: x + width, w: y + height), isSelected: false))
+                self.rects.append(.init(bounds: .init(x: x, y: y, z: x + width, w: y + height), status: 0))
+                y += ystep
+            }
+            x += xstep
+        }
+        
     }
     
 }
@@ -429,6 +494,48 @@ struct Renderer : NSViewRepresentable {
     
     func updateNSView(_ nsView: NSViewType, context: Context) {
         
+    }
+    
+}
+
+
+class sublayerDelegate: NSObject, CALayerDelegate{
+    
+    func draw(_ layer: CALayer, in ctx: CGContext) {
+        ctx.addPath(.init(ellipseIn: .init(x: 0, y: 0, width: 100, height: 300), transform: nil))
+        ctx.fillPath()
+        print("prova draw")
+    }
+    
+    
+    func display(_ layer: CALayer) {
+        //layer.dra
+        print("sublayer")
+    }
+}
+
+
+class SelectionLayer : CALayer {
+    var selection: CGRect?
+    
+    override func draw(in ctx: CGContext) {
+        guard let selection = selection else {return}
+        
+        
+        if hasDarkMode() {
+            ctx.setFillColor(gray: 1, alpha: 0.5)
+            ctx.setStrokeColor(NSColor.white.cgColor)
+        }
+        else {
+            ctx.setFillColor(gray: 0.5, alpha: 0.5)
+            ctx.setStrokeColor(NSColor.systemGray.cgColor)
+        }
+        ctx.fill(selection)
+        ctx.stroke(selection)
+    }
+    
+    override func action(forKey event: String) -> CAAction? {
+        nil
     }
     
 }

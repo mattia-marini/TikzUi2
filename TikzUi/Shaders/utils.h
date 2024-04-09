@@ -13,6 +13,8 @@ float2 actual_pos(float2 pos, float xoffset, float yoffset, float scale);
 
 float2 actual_normalized_pos(float2 pos, float xoffset, float yoffset, float scale);
 
+float2 norm_to_pixel(float2 pos, float width, float height);
+
 bool in_bounds(float2 point, float4 bounds);
 
 #endif /* utils_h */

@@ -6,14 +6,18 @@
 //
 
 #include <metal_stdlib>
+#include "bridging.h"
+#include "utils.h"
+
 using namespace metal;
 
 
 struct Fragment{
     float4 position [[position]];
-    float2 center;
-    float radius;
-    float4 normalized_pos;
+    //float2 center;
+    //float radius;
+    float4 bounds;
+    char status;
 };
 
 vertex Fragment rects_vertex_function (unsigned int instanceID [[instance_id]],
@@ -23,16 +27,16 @@ vertex Fragment rects_vertex_function (unsigned int instanceID [[instance_id]],
                                        constant float * xoffset [[buffer(3)]],
                                        constant float * yoffset [[buffer(4)]],
                                        constant float * spacing[[buffer(5)]],
-                                       constant float4 * rects[[buffer(6)]],
+                                       constant simd_rect * rects[[buffer(6)]],
                                        uint v_id [[vertex_id]]
                                        )
 {
     
-    float x0 = (*xoffset/ *width * 2 ) + ((rects[instanceID].x )/ *width *2 ) * *scale -1;
-    float y0 = (*yoffset / *height * 2 ) + ((rects[instanceID].y )/ *height *2 ) * *scale -1;
+    float x0 = (*xoffset/ *width * 2 ) + ((rects[instanceID].bounds.x )/ *width *2 ) * *scale -1;
+    float y0 = (*yoffset / *height * 2 ) + ((rects[instanceID].bounds.y )/ *height *2 ) * *scale -1;
     
-    float x1 = (*xoffset/ *width * 2 ) + ((rects[instanceID].z )/ *width *2 ) * *scale -1;
-    float y1 = (*yoffset/ *height * 2 ) + ((rects[instanceID].w )/ *height *2 ) * *scale -1;
+    float x1 = (*xoffset/ *width * 2 ) + ((rects[instanceID].bounds.z )/ *width *2 ) * *scale -1;
+    float y1 = (*yoffset/ *height * 2 ) + ((rects[instanceID].bounds.w )/ *height *2 ) * *scale -1;
    /*
     float x0 =  ((rects[instanceID].x )/ *width *2 -1) * *scale;
     float y0 =  ((rects[instanceID].y )/ *height *2 -1) * *scale;
@@ -64,12 +68,17 @@ vertex Fragment rects_vertex_function (unsigned int instanceID [[instance_id]],
      f.position = float4(rects[instanceID].x / *width * 2 -1,
      rects[instanceID].y / *height * 2 -1,
      0,1);
-     */
     f.center = float2( (((x0 + x1)/2 + 1)/2 * *width) * 2 ,
                        (*height - ((y0 + y1)/2 + 1)/2 * *height)*2
                       );
     
     f.radius = ((x0 + 1)/2 * *width) * 2 - f.center.x;
+     */
+    
+    f.status = rects[instanceID].status;
+    
+    f.bounds = float4(norm_to_pixel(float2(x0,y0), 2.0f, 2.0f), norm_to_pixel(float2(x1,y1), *width, *height));
+    
     return f;
 }
 
@@ -103,6 +112,8 @@ fragment float4 rects_fragment_function(Fragment f [[stage_in]])
     
     return float4(0.8,scale,scale, scale);
      */
-    
-    return float4(0.8,0.8,0.8,1);
+    if (f.status == 1)
+        return float4(1,0.8,0.8,1);
+    else
+        return float4(0.8,0.8,0.8,1);
 }
