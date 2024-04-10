@@ -15,6 +15,7 @@ class MetalView : NSView, CALayerDelegate{
     var queue : MTLCommandQueue!
     var pipelineState : MTLRenderPipelineState!
     var rectsPipelineState : MTLRenderPipelineState!
+    var computeSelectionPipelineState : MTLComputePipelineState!
     var computePipelineState : MTLComputePipelineState!
     
     
@@ -30,8 +31,10 @@ class MetalView : NSView, CALayerDelegate{
     private var width : Float = 0
     private var height : Float = 0
     
-    //private var rects : [SIMD4<Float>] = [.init(0, 0, 300, 100)]
-    private var rects : [simd_rect] = []
+    
+    private var rects : [SimdRect] = []
+    private var rectsSelection : [Bool] = []
+    private var rectsLiveSelection : [Bool] = []
     
     private var currKey : String? = nil
     private var selectionStart: NSPoint? = nil
@@ -57,6 +60,7 @@ class MetalView : NSView, CALayerDelegate{
         height = Float(bounds.height)
         generateRects()
         updateTrackingAreas()
+        GPUTask.setup()
     }
     
     override init(frame frameRect: NSRect) {
@@ -70,6 +74,7 @@ class MetalView : NSView, CALayerDelegate{
         height = Float(bounds.height)
         generateRects()
         updateTrackingAreas()
+        GPUTask.setup()
     }
     
     override func updateTrackingAreas() {
@@ -112,7 +117,6 @@ class MetalView : NSView, CALayerDelegate{
         setNeedsDisplay(bounds)
     }
     
-    
     override func mouseMoved(with event: NSEvent) {
     }
     
@@ -125,15 +129,17 @@ class MetalView : NSView, CALayerDelegate{
             setNeedsDisplay(bounds)
         }
         
-        else if (currLiveAction == .selection){
+        else if (currLiveAction == .selection || currLiveAction == .addToSelection){
             let viewCords = convert(event.locationInWindow, from: nil)
             
             if selectionStart == nil { self.selectionStart = viewCords }
             guard let selectionStart = selectionStart else {return}
             
-            selectionLayer.selection = .init(origin: selectionStart, size: .init(width: viewCords.x - selectionStart.x, height: viewCords.y - selectionStart.y))
+            let currSel = NSRect(origin: selectionStart, size: .init(width: viewCords.x - selectionStart.x, height: viewCords.y - selectionStart.y))
+            selectionLayer.selection = currSel
             selectionLayer.setNeedsDisplay()
             
+            computeHighlightedShapes(currSel)
             
         }
         
@@ -142,14 +148,29 @@ class MetalView : NSView, CALayerDelegate{
     
     override func mouseDown(with event: NSEvent) {
         
-        if(currLiveAction == .none){
+        if(currLiveAction == .none && currKey == CanvasModifiers.selection){
+            if event.modifierFlags.contains(CanvasModifiers.addToSelection) {
+                print("addtoselection")
+                currLiveAction = .addToSelection
+            }
+            else{
+                GPUTask.setArray(&rectsSelection, value: false)
+                currLiveAction = .selection
+            }
             selectionStart = convert(event.locationInWindow, from: nil)
-            currLiveAction = .selection
+            //print(event.modifierFlags.contains(CanvasModifiers.addToSelection))
+            //print(CanvasModifiers.addToSelection)
         }
         
     }
     
     override func mouseUp(with event: NSEvent) {
+        
+        if currLiveAction == LiveCanvasActions.selection || currLiveAction == LiveCanvasActions.addToSelection{
+            GPUTask.mergeArrays(rectsLiveSelection, into: &rectsSelection)
+            GPUTask.setArray(&rectsLiveSelection, value: false)
+        }
+        
         currLiveAction = .none
         selectionStart = nil
         selectionLayer.selection = nil
@@ -295,6 +316,10 @@ class MetalView : NSView, CALayerDelegate{
             return
         }
         
+        let buffer = metalLayer.device?.makeBuffer(bytes: rects, length: MemoryLayout<SimdRect>.stride * rects.count, options: [])
+        
+        let rectsSelectionBuffer = device.makeBuffer(bytes: rectsSelection, length: rectsSelection.count)
+        let rectsLiveSelectionBuffer = device.makeBuffer(bytes: rectsLiveSelection, length: rectsLiveSelection.count)
         
         renderEncoder.setRenderPipelineState(rectsPipelineState)
         renderEncoder.setVertexBytes(&width, length: MemoryLayout<Float>.size, index: 0)
@@ -304,8 +329,9 @@ class MetalView : NSView, CALayerDelegate{
         renderEncoder.setVertexBytes(&yoffset, length: MemoryLayout<Float>.size, index: 4)
         renderEncoder.setVertexBytes(&spacing, length: MemoryLayout<Float>.size, index: 5)
         //renderEncoder.setVerte
-        let buffer = metalLayer.device?.makeBuffer(bytes: rects, length: MemoryLayout<simd_rect>.stride * rects.count, options: [])
         renderEncoder.setVertexBuffer(buffer, offset: 0, index: 6 )
+        renderEncoder.setVertexBuffer(rectsSelectionBuffer, offset: 0, index: 7 )
+        renderEncoder.setVertexBuffer(rectsLiveSelectionBuffer, offset: 0, index: 8 )
         //renderEncoder.setVertexBytes(rects, length: MemoryLayout<SIMD4<Float>>.stride * rects.count, index: 6)
         
         renderEncoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: 6, instanceCount: rects.count)
@@ -320,13 +346,58 @@ class MetalView : NSView, CALayerDelegate{
         drawable.present()
     }
     
+    private func computeHighlightedShapes(_ selection: NSRect){
+        let commandBuffer = queue.makeCommandBuffer()
+        let commandEncoder = commandBuffer?.makeComputeCommandEncoder()
+        commandEncoder?.setComputePipelineState(computeSelectionPipelineState)
+        
+        let rectsBuffer = device.makeBuffer(bytes: rects, length: MemoryLayout<SimdRect>.stride * rects.count)
+        var canvasInfos = CanvasInfos(xoffset: xoffset, yoffset: yoffset, width: Float(bounds.width), height: Float(bounds.height), scale: zoomLevel)
+        var selectionSimd = SIMD4<Float>(Float(selection.minX), Float(selection.minY), Float(selection.maxX), Float(selection.maxY))
+        
+        //let rectsSelectionBuffer = device.makeBuffer(bytes: rectsSelection, length: rectsSelection.count)
+        let rectsLiveSelectionBuffer = device.makeBuffer(bytes: rectsLiveSelection, length: rectsLiveSelection.count)
+        let needsDisplayBuffer = device.makeBuffer(length: MemoryLayout<Bool>.size)
+        
+        
+        commandEncoder?.setBuffer(rectsBuffer, offset: 0, index: 0)
+        commandEncoder?.setBytes(&canvasInfos, length: MemoryLayout<CanvasInfos>.size, index: 1)
+        commandEncoder?.setBytes(&selectionSimd, length: MemoryLayout<SIMD4<Float>>.size, index: 2)
+        commandEncoder?.setBuffer(rectsLiveSelectionBuffer, offset: 0, index: 3)
+        commandEncoder?.setBuffer(needsDisplayBuffer, offset: 0, index: 4)
+        //commandEncoder?.setBytes(&retainOldSelection, length: MemoryLayout<Bool>.size, index: 4)
+        
+        let threadPerGrid = MTLSize(width: rects.count, height: 1, depth: 1)
+        let threadsPerGroup = MTLSize(width: computePipelineState.maxTotalThreadsPerThreadgroup, height: 1, depth: 1)
+        commandEncoder?.dispatchThreads(threadPerGrid, threadsPerThreadgroup: threadsPerGroup)
+        
+        
+        commandEncoder?.endEncoding()
+        
+        commandBuffer?.commit()
+        
+        commandBuffer?.waitUntilCompleted()
+        
+        let resultRects = rectsBuffer?.contents().bindMemory(to: SimdRect.self, capacity: rects.count)
+        let resultRectsLiveSelection = rectsLiveSelectionBuffer?.contents().bindMemory(to: Bool.self, capacity: rects.count)
+        let needsRedrawUnsafe = needsDisplayBuffer?.contents().bindMemory(to: Bool.self, capacity: rects.count)
+        
+        //rects = Array((rectsBuffer!).contents().load(as: [SimdRect].self))
+        rects = Array(UnsafeBufferPointer(start: resultRects!, count: rects.count))
+        rectsLiveSelection = Array(UnsafeBufferPointer(start: resultRectsLiveSelection!, count: rectsLiveSelection.count))
+        let needsRedraw = (Array(UnsafeBufferPointer(start: needsRedrawUnsafe!, count: rectsLiveSelection.count)))[0]
+        
+        
+        if(needsRedraw){ metalLayer.setNeedsDisplay() }
+    }
+    
     private func getTargetsUnderMouse(_ mousePos : NSPoint){
         let commandBuffer = queue.makeCommandBuffer()
         let commandEncoder = commandBuffer?.makeComputeCommandEncoder()
         commandEncoder?.setComputePipelineState(computePipelineState)
         
         
-        let rectsBuffer = device.makeBuffer(bytes: rects, length: MemoryLayout<SIMD4<Float>>.stride * rects.count)
+        let rectsBuffer = device.makeBuffer(bytes: rects, length: MemoryLayout<SimdRect>.stride * rects.count)
         //var normalizedCords = float2(x: Float(mousePos.x / bounds.width) * 2 - 1, y: Float(mousePos.y / bounds.height) * 2 - 1)
         //let mouseCordsBuffer = device.makeBuffer(bytes: &normalizedCords, length: MemoryLayout<float2>.size)
         var mouseCords = SIMD2<Float>(x: Float(mousePos.x), y: Float(mousePos.y))
@@ -377,8 +448,6 @@ class MetalView : NSView, CALayerDelegate{
         
     }
     
-    
-    
     private func getSelectionBounds(_ selection: NSPoint){
         
     }
@@ -423,6 +492,7 @@ class MetalView : NSView, CALayerDelegate{
             pipelineState = try metalLayer.device?.makeRenderPipelineState(descriptor: pipelineStateDescriptor)
             rectsPipelineState = try metalLayer.device?.makeRenderPipelineState(descriptor: rectsPipelineStateDescriptor)
             computePipelineState = try device.makeComputePipelineState(function: library.makeFunction(name: "computeFunction")!)
+            computeSelectionPipelineState = try device.makeComputePipelineState(function: library.makeFunction(name: "compute_selection")!)
         }
         catch let error as NSError{
             print("Errore nella creazione della pipeline")
@@ -470,20 +540,40 @@ class MetalView : NSView, CALayerDelegate{
         let width: Float = 15.0, height: Float = 15.0
         var x: Float = 0.0
         
-        while (x < 100){
+        let xAmmount = 10_000 as Float
+        let yAmmount = 10_000 as Float
+        
+        while (x < xAmmount){
             
             var y: Float = 0.0
-            while (y < 10000){
+            while (y < yAmmount){
                 //self.rects.append(.init(bounds: .init(x: x, y: y, z: x + width, w: y + height), isSelected: false))
-                self.rects.append(.init(bounds: .init(x: x, y: y, z: x + width, w: y + height), status: 0))
+                self.rects.append(.init(bounds: .init(x: x, y: y, z: x + width, w: y + height)))
                 y += ystep
             }
             x += xstep
         }
         
+        rectsSelection = Array(repeating: false, count: rects.count)
+        rectsLiveSelection = Array(repeating: false, count: rects.count)
+        
     }
     
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 struct Renderer : NSViewRepresentable {

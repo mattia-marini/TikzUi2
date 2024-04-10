@@ -22,9 +22,9 @@ kernel void computeFunction(constant float4 * rects[[ buffer(0) ]],
     //float2 actualMousePos = actualPos(*mousePos, *xoffset, *yoffset, *scale);
     float2 rect0 = actual_pos(float2(rects[index].x, rects[index].y), *xoffset, *yoffset, *scale);
     float2 rect1 = actual_pos(float2(rects[index].z, rects[index].w), *xoffset, *yoffset, *scale);
-    
     if (in_bounds(*mousePos,float4(rect0, rect1)))
         *res = 1;
+    
     /*
      if( *xoffset == 0)
      *res = 3333333;

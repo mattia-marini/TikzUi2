@@ -8,12 +8,18 @@
 #ifndef bridging_h
 #define bridging_h
 #include <simd/simd.h>
-#include "stdbool.h"
 
 
-struct simd_rect {
+struct SimdRect {
     vector_float4 bounds;
-    char status;
+};
+
+struct CanvasInfos {
+    float xoffset;
+    float yoffset;
+    float width;
+    float height;
+    float scale;
 };
 
 #endif /* bridging_h */

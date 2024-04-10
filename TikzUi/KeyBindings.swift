@@ -5,10 +5,11 @@
 //  Created by Mattia Marini on 08/04/24.
 //
 
-import Foundation
+import SwiftUI
 
 class CanvasModifiers {
     public static let selection : String? = nil
+    public static let addToSelection = NSEvent.ModifierFlags.command
     public static let moveView = " "
 }
 
@@ -19,6 +20,7 @@ class CanvasActions {
 
 enum LiveCanvasActions {
     case selection
+    case addToSelection
     case shapeDrag
     case moveView
     case none

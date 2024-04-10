@@ -17,7 +17,8 @@ struct Fragment{
     //float2 center;
     //float radius;
     float4 bounds;
-    char status;
+    //char status;
+    bool highlighted;
 };
 
 vertex Fragment rects_vertex_function (unsigned int instanceID [[instance_id]],
@@ -27,7 +28,9 @@ vertex Fragment rects_vertex_function (unsigned int instanceID [[instance_id]],
                                        constant float * xoffset [[buffer(3)]],
                                        constant float * yoffset [[buffer(4)]],
                                        constant float * spacing[[buffer(5)]],
-                                       constant simd_rect * rects[[buffer(6)]],
+                                       constant SimdRect * rects[[buffer(6)]],
+                                       constant bool * rectsSelection[[buffer(7)]],
+                                       constant bool * rectsLiveSelection[[buffer(8)]],
                                        uint v_id [[vertex_id]]
                                        )
 {
@@ -75,7 +78,7 @@ vertex Fragment rects_vertex_function (unsigned int instanceID [[instance_id]],
     f.radius = ((x0 + 1)/2 * *width) * 2 - f.center.x;
      */
     
-    f.status = rects[instanceID].status;
+    f.highlighted = rectsSelection[instanceID] || rectsLiveSelection[instanceID];
     
     f.bounds = float4(norm_to_pixel(float2(x0,y0), 2.0f, 2.0f), norm_to_pixel(float2(x1,y1), *width, *height));
     
@@ -112,8 +115,8 @@ fragment float4 rects_fragment_function(Fragment f [[stage_in]])
     
     return float4(0.8,scale,scale, scale);
      */
-    if (f.status == 1)
-        return float4(1,0.8,0.8,1);
+    if (f.highlighted)
+        return float4(1,0,0,1);
     else
         return float4(0.8,0.8,0.8,1);
 }
