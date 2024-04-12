@@ -20,6 +20,8 @@
 		497AE06F2BB8408900E5C8AC /* utils.metal in Sources */ = {isa = PBXBuildFile; fileRef = 497AE06E2BB8408900E5C8AC /* utils.metal */; };
 		499C0F912BC6A51A00942D7D /* GPUTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499C0F902BC6A51A00942D7D /* GPUTask.swift */; };
 		499C0F932BC6A53400942D7D /* GPUTaskArray.metal in Sources */ = {isa = PBXBuildFile; fileRef = 499C0F922BC6A53400942D7D /* GPUTaskArray.metal */; };
+		49D2F53E2BC7F0A1000D5607 /* CanvasShapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D2F53D2BC7F0A1000D5607 /* CanvasShapes.swift */; };
+		49D2F5402BC7F633000D5607 /* Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D2F53F2BC7F633000D5607 /* Tools.swift */; };
 		49DA3E2E2BC3E7BE00F58831 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DA3E2D2BC3E7BE00F58831 /* Utils.swift */; };
 /* End PBXBuildFile section */
 
@@ -40,6 +42,8 @@
 		497AE06E2BB8408900E5C8AC /* utils.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = utils.metal; sourceTree = "<group>"; };
 		499C0F902BC6A51A00942D7D /* GPUTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPUTask.swift; sourceTree = "<group>"; };
 		499C0F922BC6A53400942D7D /* GPUTaskArray.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = GPUTaskArray.metal; sourceTree = "<group>"; };
+		49D2F53D2BC7F0A1000D5607 /* CanvasShapes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasShapes.swift; sourceTree = "<group>"; };
+		49D2F53F2BC7F633000D5607 /* Tools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tools.swift; sourceTree = "<group>"; };
 		49DA3E2D2BC3E7BE00F58831 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		49FF7B7E2BC45D8400D5FAF1 /* bridging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bridging.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -74,7 +78,7 @@
 		497AE0552BB83FE500E5C8AC /* TikzUi */ = {
 			isa = PBXGroup;
 			children = (
-				4923E3272BC4119F004B2B0F /* KeyBindings.swift */,
+				49D2F5412BC7F641000D5607 /* Model */,
 				497AE0562BB83FE500E5C8AC /* TikzUiApp.swift */,
 				497AE0582BB83FE500E5C8AC /* ContentView.swift */,
 				497AE0652BB8402000E5C8AC /* MetalView.swift */,
@@ -117,6 +121,16 @@
 				499C0F922BC6A53400942D7D /* GPUTaskArray.metal */,
 			);
 			path = GPUTasks;
+			sourceTree = "<group>";
+		};
+		49D2F5412BC7F641000D5607 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				49D2F53D2BC7F0A1000D5607 /* CanvasShapes.swift */,
+				4923E3272BC4119F004B2B0F /* KeyBindings.swift */,
+				49D2F53F2BC7F633000D5607 /* Tools.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		49DA3E2C2BC3E7A400F58831 /* Utils */ = {
@@ -205,8 +219,10 @@
 				497AE06B2BB8407200E5C8AC /* rects_shader.metal in Sources */,
 				492608E52BC526D900B9B972 /* compute_selection.metal in Sources */,
 				497AE0592BB83FE500E5C8AC /* ContentView.swift in Sources */,
+				49D2F53E2BC7F0A1000D5607 /* CanvasShapes.swift in Sources */,
 				499C0F912BC6A51A00942D7D /* GPUTask.swift in Sources */,
 				499C0F932BC6A53400942D7D /* GPUTaskArray.metal in Sources */,
+				49D2F5402BC7F633000D5607 /* Tools.swift in Sources */,
 				497AE0572BB83FE500E5C8AC /* TikzUiApp.swift in Sources */,
 				49DA3E2E2BC3E7BE00F58831 /* Utils.swift in Sources */,
 			);

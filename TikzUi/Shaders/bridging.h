@@ -22,5 +22,6 @@ struct CanvasInfos {
     float scale;
 };
 
+
 #endif /* bridging_h */
 
