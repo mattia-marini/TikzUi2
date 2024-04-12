@@ -167,11 +167,7 @@ class MetalView : NSView, CALayerDelegate{
             }
             
         }
-        else if (currTool == Tools.placeNode){
-            let viewPos = convert(event.locationInWindow, from: nil)
-            shapes.addNode(viewPos)
-            metalLayer.setNeedsDisplay()
-        }
+        
     }
     
     override func mouseUp(with event: NSEvent) {
@@ -193,7 +189,7 @@ class MetalView : NSView, CALayerDelegate{
         
         else if currTool == .placeNode {
             let viewCords = convert(event.locationInWindow, from: nil)
-            shapes.addNode(canvasCordsFromView(viewCords) )
+            shapes.addNode(canvasCordsFromView(viewCords))
             metalLayer.setNeedsDisplay()
         }
         
@@ -375,12 +371,12 @@ class MetalView : NSView, CALayerDelegate{
         
         let resultRects = rectsBuffer?.contents().bindMemory(to: SimdRect.self, capacity: shapes.rects.count)
         let resultRectsLiveSelection = rectsLiveSelectionBuffer?.contents().bindMemory(to: Bool.self, capacity: shapes.rects.count)
-        let needsRedrawUnsafe = needsDisplayBuffer?.contents().bindMemory(to: Bool.self, capacity: shapes.rects.count)
+        let needsRedrawUnsafe = needsDisplayBuffer?.contents().bindMemory(to: Bool.self, capacity: 1)
         
         //rects = Array((rectsBuffer!).contents().load(as: [SimdRect].self))
         shapes.rects = Array(UnsafeBufferPointer(start: resultRects!, count: shapes.rects.count))
         shapes.rectsLiveSelection = Array(UnsafeBufferPointer(start: resultRectsLiveSelection!, count: shapes.rectsLiveSelection.count))
-        let needsRedraw = (Array(UnsafeBufferPointer(start: needsRedrawUnsafe!, count: shapes.rectsLiveSelection.count)))[0]
+        let needsRedraw = (Array(UnsafeBufferPointer(start: needsRedrawUnsafe!, count: 1)))[0]
         
         
         if(needsRedraw){ metalLayer.setNeedsDisplay() }
