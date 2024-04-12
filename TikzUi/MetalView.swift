@@ -11,6 +11,9 @@ import SwiftUI
 
 class MetalView : NSView, CALayerDelegate{
     
+    
+    private var tool : Binding<String>?
+    
     var device : MTLDevice!
     var queue : MTLCommandQueue!
     var pipelineState : MTLRenderPipelineState!
@@ -49,6 +52,11 @@ class MetalView : NSView, CALayerDelegate{
         return true
     }
     
+    convenience init(frame frameRect: NSRect, tool: Binding<String>)  {
+        self.init(frame: frameRect)
+        self.tool = tool
+    }
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         
@@ -202,14 +210,17 @@ class MetalView : NSView, CALayerDelegate{
             //globals to change tool
             if (event.characters == CanvasModifiers.globals.placeNodeTool){
                 currTool = .placeNode
+                tool?.wrappedValue = "PlaceNode"
             }
             else if (event.characters == CanvasModifiers.globals.selectionTool){
                 currTool = .selection
+                tool?.wrappedValue = "Selection"
             }
             
             else if (event.characters == CanvasModifiers.selection.moveView){
                 NSCursor.closedHand.set()
                 currLiveAction = .moveView
+                tool?.wrappedValue = "PlaceNode"
             }
         }
         
@@ -547,8 +558,10 @@ class MetalView : NSView, CALayerDelegate{
 
 struct Renderer : NSViewRepresentable {
     
+    @Binding var tool: String
+    
     func makeNSView(context: Context) -> some NSView {
-        return MetalView(frame: .zero)
+        return MetalView(frame: .zero, tool: $tool)
     }
     
     func updateNSView(_ nsView: NSViewType, context: Context) {

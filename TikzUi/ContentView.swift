@@ -8,8 +8,13 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var tool = "Selection"
+    
     var body: some View {
-        Renderer()
+        VStack(alignment: .center){
+            Text(tool)
+            Renderer(tool: $tool)
+        }
     }
 }
 
