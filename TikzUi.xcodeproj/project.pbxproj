@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		49067A792BD14CFD00EACB3F /* Drawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49067A782BD14CFD00EACB3F /* Drawing.swift */; };
+		49067A7B2BD14D4500EACB3F /* Computing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49067A7A2BD14D4500EACB3F /* Computing.swift */; };
+		49067A7D2BD14E7D00EACB3F /* Setup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49067A7C2BD14E7D00EACB3F /* Setup.swift */; };
+		49067A802BD150C400EACB3F /* MouseSingle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49067A7F2BD150C400EACB3F /* MouseSingle.swift */; };
+		49067A822BD150D900EACB3F /* MouseContinuous.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49067A812BD150D900EACB3F /* MouseContinuous.swift */; };
+		49067A842BD150E200EACB3F /* Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49067A832BD150E200EACB3F /* Keyboard.swift */; };
 		4923E3282BC4119F004B2B0F /* KeyBindings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4923E3272BC4119F004B2B0F /* KeyBindings.swift */; };
 		492608E52BC526D900B9B972 /* compute_selection.metal in Sources */ = {isa = PBXBuildFile; fileRef = 492608E42BC526D900B9B972 /* compute_selection.metal */; };
 		497AE0572BB83FE500E5C8AC /* TikzUiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497AE0562BB83FE500E5C8AC /* TikzUiApp.swift */; };
@@ -19,13 +25,23 @@
 		497AE06D2BB8408000E5C8AC /* compute_shader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 497AE06C2BB8408000E5C8AC /* compute_shader.metal */; };
 		497AE06F2BB8408900E5C8AC /* utils.metal in Sources */ = {isa = PBXBuildFile; fileRef = 497AE06E2BB8408900E5C8AC /* utils.metal */; };
 		499C0F912BC6A51A00942D7D /* GPUTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499C0F902BC6A51A00942D7D /* GPUTask.swift */; };
-		499C0F932BC6A53400942D7D /* GPUTaskArray.metal in Sources */ = {isa = PBXBuildFile; fileRef = 499C0F922BC6A53400942D7D /* GPUTaskArray.metal */; };
 		49D2F53E2BC7F0A1000D5607 /* CanvasShapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D2F53D2BC7F0A1000D5607 /* CanvasShapes.swift */; };
 		49D2F5402BC7F633000D5607 /* Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D2F53F2BC7F633000D5607 /* Tools.swift */; };
 		49DA3E2E2BC3E7BE00F58831 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49DA3E2D2BC3E7BE00F58831 /* Utils.swift */; };
+		49E9FDC72BD26E410004858E /* SetArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E9FDC62BD26E410004858E /* SetArray.swift */; };
+		49E9FDCA2BD26F480004858E /* MergeArrays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E9FDC92BD26F480004858E /* MergeArrays.swift */; };
+		49E9FDCC2BD26F960004858E /* MergeArrays.metal in Sources */ = {isa = PBXBuildFile; fileRef = 49E9FDCB2BD26F960004858E /* MergeArrays.metal */; };
+		49E9FDCE2BD26F9F0004858E /* SetArray.metal in Sources */ = {isa = PBXBuildFile; fileRef = 49E9FDCD2BD26F9F0004858E /* SetArray.metal */; };
+		49E9FDD02BD271810004858E /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E9FDCF2BD271810004858E /* Util.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		49067A782BD14CFD00EACB3F /* Drawing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drawing.swift; sourceTree = "<group>"; };
+		49067A7A2BD14D4500EACB3F /* Computing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Computing.swift; sourceTree = "<group>"; };
+		49067A7C2BD14E7D00EACB3F /* Setup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Setup.swift; sourceTree = "<group>"; };
+		49067A7F2BD150C400EACB3F /* MouseSingle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MouseSingle.swift; sourceTree = "<group>"; };
+		49067A812BD150D900EACB3F /* MouseContinuous.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MouseContinuous.swift; sourceTree = "<group>"; };
+		49067A832BD150E200EACB3F /* Keyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keyboard.swift; sourceTree = "<group>"; };
 		4923E3272BC4119F004B2B0F /* KeyBindings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyBindings.swift; sourceTree = "<group>"; };
 		492608E42BC526D900B9B972 /* compute_selection.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = compute_selection.metal; sourceTree = "<group>"; };
 		497AE0532BB83FE500E5C8AC /* TikzUi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TikzUi.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -41,10 +57,14 @@
 		497AE06C2BB8408000E5C8AC /* compute_shader.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = compute_shader.metal; sourceTree = "<group>"; };
 		497AE06E2BB8408900E5C8AC /* utils.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = utils.metal; sourceTree = "<group>"; };
 		499C0F902BC6A51A00942D7D /* GPUTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPUTask.swift; sourceTree = "<group>"; };
-		499C0F922BC6A53400942D7D /* GPUTaskArray.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = GPUTaskArray.metal; sourceTree = "<group>"; };
 		49D2F53D2BC7F0A1000D5607 /* CanvasShapes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasShapes.swift; sourceTree = "<group>"; };
 		49D2F53F2BC7F633000D5607 /* Tools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tools.swift; sourceTree = "<group>"; };
 		49DA3E2D2BC3E7BE00F58831 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		49E9FDC62BD26E410004858E /* SetArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetArray.swift; sourceTree = "<group>"; };
+		49E9FDC92BD26F480004858E /* MergeArrays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MergeArrays.swift; sourceTree = "<group>"; };
+		49E9FDCB2BD26F960004858E /* MergeArrays.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = MergeArrays.metal; sourceTree = "<group>"; };
+		49E9FDCD2BD26F9F0004858E /* SetArray.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = SetArray.metal; sourceTree = "<group>"; };
+		49E9FDCF2BD271810004858E /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		49FF7B7E2BC45D8400D5FAF1 /* bridging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bridging.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -59,6 +79,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		49067A772BD14BC400EACB3F /* Canvas */ = {
+			isa = PBXGroup;
+			children = (
+				49067A7E2BD150B700EACB3F /* Handlers */,
+				497AE0652BB8402000E5C8AC /* MetalView.swift */,
+				49067A782BD14CFD00EACB3F /* Drawing.swift */,
+				49067A7A2BD14D4500EACB3F /* Computing.swift */,
+				49067A7C2BD14E7D00EACB3F /* Setup.swift */,
+			);
+			path = Canvas;
+			sourceTree = "<group>";
+		};
+		49067A7E2BD150B700EACB3F /* Handlers */ = {
+			isa = PBXGroup;
+			children = (
+				49067A7F2BD150C400EACB3F /* MouseSingle.swift */,
+				49067A812BD150D900EACB3F /* MouseContinuous.swift */,
+				49067A832BD150E200EACB3F /* Keyboard.swift */,
+			);
+			path = Handlers;
+			sourceTree = "<group>";
+		};
 		497AE04A2BB83FE500E5C8AC = {
 			isa = PBXGroup;
 			children = (
@@ -81,7 +123,7 @@
 				49D2F5412BC7F641000D5607 /* Model */,
 				497AE0562BB83FE500E5C8AC /* TikzUiApp.swift */,
 				497AE0582BB83FE500E5C8AC /* ContentView.swift */,
-				497AE0652BB8402000E5C8AC /* MetalView.swift */,
+				49067A772BD14BC400EACB3F /* Canvas */,
 				499C0F8F2BC697A400942D7D /* GPUTasks */,
 				49DA3E2C2BC3E7A400F58831 /* Utils */,
 				497AE0702BB840D300E5C8AC /* Shaders */,
@@ -117,8 +159,10 @@
 		499C0F8F2BC697A400942D7D /* GPUTasks */ = {
 			isa = PBXGroup;
 			children = (
+				49E9FDC82BD26F380004858E /* MergeArrays */,
+				49E9FDC52BD26E160004858E /* SetArray */,
 				499C0F902BC6A51A00942D7D /* GPUTask.swift */,
-				499C0F922BC6A53400942D7D /* GPUTaskArray.metal */,
+				49E9FDCF2BD271810004858E /* Util.swift */,
 			);
 			path = GPUTasks;
 			sourceTree = "<group>";
@@ -139,6 +183,24 @@
 				49DA3E2D2BC3E7BE00F58831 /* Utils.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		49E9FDC52BD26E160004858E /* SetArray */ = {
+			isa = PBXGroup;
+			children = (
+				49E9FDC62BD26E410004858E /* SetArray.swift */,
+				49E9FDCD2BD26F9F0004858E /* SetArray.metal */,
+			);
+			path = SetArray;
+			sourceTree = "<group>";
+		};
+		49E9FDC82BD26F380004858E /* MergeArrays */ = {
+			isa = PBXGroup;
+			children = (
+				49E9FDC92BD26F480004858E /* MergeArrays.swift */,
+				49E9FDCB2BD26F960004858E /* MergeArrays.metal */,
+			);
+			path = MergeArrays;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -211,20 +273,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49067A7B2BD14D4500EACB3F /* Computing.swift in Sources */,
 				4923E3282BC4119F004B2B0F /* KeyBindings.swift in Sources */,
+				49E9FDCE2BD26F9F0004858E /* SetArray.metal in Sources */,
+				49067A842BD150E200EACB3F /* Keyboard.swift in Sources */,
+				49E9FDCC2BD26F960004858E /* MergeArrays.metal in Sources */,
 				497AE0692BB8405D00E5C8AC /* grid_shader.metal in Sources */,
+				49067A7D2BD14E7D00EACB3F /* Setup.swift in Sources */,
 				497AE0662BB8402000E5C8AC /* MetalView.swift in Sources */,
 				497AE06F2BB8408900E5C8AC /* utils.metal in Sources */,
+				49067A822BD150D900EACB3F /* MouseContinuous.swift in Sources */,
 				497AE06D2BB8408000E5C8AC /* compute_shader.metal in Sources */,
+				49067A802BD150C400EACB3F /* MouseSingle.swift in Sources */,
+				49E9FDCA2BD26F480004858E /* MergeArrays.swift in Sources */,
 				497AE06B2BB8407200E5C8AC /* rects_shader.metal in Sources */,
 				492608E52BC526D900B9B972 /* compute_selection.metal in Sources */,
 				497AE0592BB83FE500E5C8AC /* ContentView.swift in Sources */,
 				49D2F53E2BC7F0A1000D5607 /* CanvasShapes.swift in Sources */,
 				499C0F912BC6A51A00942D7D /* GPUTask.swift in Sources */,
-				499C0F932BC6A53400942D7D /* GPUTaskArray.metal in Sources */,
+				49E9FDC72BD26E410004858E /* SetArray.swift in Sources */,
+				49E9FDD02BD271810004858E /* Util.swift in Sources */,
 				49D2F5402BC7F633000D5607 /* Tools.swift in Sources */,
 				497AE0572BB83FE500E5C8AC /* TikzUiApp.swift in Sources */,
 				49DA3E2E2BC3E7BE00F58831 /* Utils.swift in Sources */,
+				49067A792BD14CFD00EACB3F /* Drawing.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -368,6 +440,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.marini.TikzUi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -396,6 +469,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.marini.TikzUi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
